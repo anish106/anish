@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SUBISU CHANDRAUTA - Filed Work Form (D2D & Renewal)</title>
+  <style>
+    :root{
+      --bg:#f7fafc; --card:#ffffff; --accent:#0b74de; --muted:#6b7280;
+      --success:#16a34a; --danger:#dc2626;
+    }
+    *{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
+    body{margin:0;background:var(--bg);color:#0f172a;padding:24px}
+    .container{max-width:980px;margin:0 auto}
+    header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+    header h1{font-size:20px;margin:0}
+    header p{margin:0;color:var(--muted);font-size:13px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    @media (max-width:880px){.grid{grid-template-columns:1fr}}
+    .card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(2,6,23,0.06)}
+    label{display:block;font-weight:600;font-size:13px;margin-bottom:6px}
+    .muted{color:var(--muted);font-weight:400;font-size:13px;margin-top:4px}
+    input[type="text"], input[type="tel"], input[type="datetime-local"], input[type="date"], input[type="time"], textarea, select {
+      width:100%;padding:10px;border:1px solid #e6e9ef;border-radius:8px;font-size:14px;
+    }
+    textarea{min-height:90px;resize:vertical}
+    .row{display:flex;gap:12px}
+    .row > *{flex:1}
+    .small{font-size:13px}
+    .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:12px}
+    button{background:var(--accent);color:#fff;padding:10px 14px;border-radius:8px;border:0;font-weight:600;cursor:pointer}
+    button.ghost{background:transparent;color:var(--accent);border:1px solid rgba(11,116,222,0.12)}
+    .status-pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#eef6ff;color:var(--accent);font-weight:600;font-size:13px}
+    .hint{font-size:12px;color:var(--muted);margin-top:6px}
+    .inline{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .radio-label{display:inline-flex;align-items:center;gap:8px;background:#f3f4f6;padding:8px 10px;border-radius:8px;border:1px solid transparent;cursor:pointer}
+    .radio-label input{margin:0}
+    .result{white-space:pre-wrap;background:#0f172a;color:#fff;padding:12px;border-radius:8px;margin-top:12px;font-family:monospace;font-size:13px}
+    .download-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .error{color:var(--danger);font-size:13px;margin-top:6px}
+    .section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>SUBISU CHANDRAUTA — Filed Work Form</h1>
+        <p>Door-to-Door (D2D) & Renewal — record upcoming, inactive, suspended, or new connection visits</p>
+      </div>
+      <div style="margin-left:auto">
+        <span class="status-pill" id="clock">—</span>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- D2D Form -->
+      <div class="card" id="d2dCard">
+        <div class="section-title">
+          <strong>D2D Form</strong>
+          <small class="muted">use when visiting households</small>
+        </div>
+
+        <form id="d2dForm" autocomplete="off">
+          <label for="d2d_fullname">Full name</label>
+          <input id="d2d_fullname" name="fullName" type="text" placeholder="Ex: Ram Bahadur" required>
+
+          <label for="d2d_address" style="margin-top:10px">Address</label>
+          <textarea id="d2d_address" name="address" placeholder="Full address (ward, street, landmark)"></textarea>
+
+          <div class="row" style="margin-top:10px">
+            <div>
+              <label for="d2d_mobile">Mobile no</label>
+              <input id="d2d_mobile" name="mobile" type="tel" placeholder="+977-98XXXXXXXX" pattern="[0-9+- ]{7,20}" required>
+            </div>
+            <div>
+              <label for="d2d_gps">GPS (lat, lon)</label>
+              <input id="d2d_gps" name="gps" type="text" placeholder="Click 'Get GPS' or paste coordinates" >
+              <div class="hint"><button type="button" id="getGpsBtn" class="ghost">Get GPS</button></div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:10px">
+            <div>
+              <label for="d2d_visited_by">Visited by</label>
+              <input id="d2d_visited_by" name="visitedBy" type="text" placeholder="Name of staff" required>
+            </div>
+            <div>
+              <label for="d2d_date">Date</label>
+              <input id="d2d_date" name="date" type="date" required>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:10px">
+            <div>
+              <label for="d2d_time">Time</label>
+              <input id="d2d_time" name="time" type="time" required>
+            </div>
+            <div>
+              <label for="d2d_status">Visit status</label>
+              <select id="d2d_status" name="status" required>
+                <option value="" disabled selected>-- select status --</option>
+                <option value="upcoming">Upcoming</option>
+                <option value="inactive">Inactive</option>
+                <option value="suspended">Suspended</option>
+                <option value="new_connection">New Connection</option>
+              </select>
+            </div>
+          </div>
+
+          <label style="margin-top:10px">User internet interest</label>
+          <div class="inline" role="radiogroup" aria-label="internet status">
+            <label class="radio-label"><input type="radio" name="internet" value="already" required> Already has internet</label>
+            <label class="radio-label"><input type="radio" name="internet" value="not_interested"> Not interested</label>
+            <label class="radio-label"><input type="radio" name="internet" value="urgent"> Urgent internet needed</label>
+            <label class="radio-label"><input type="radio" name="internet" value="interested_later"> Interested (follow up later)</label>
+          </div>
+
+          <label for="d2d_notes" style="margin-top:10px">Notes</label>
+          <textarea id="d2d_notes" name="notes" placeholder="Extra details: equipment, premises, objections, preferred time to call, etc."></textarea>
+
+          <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
+            <input id="d2d_filed" type="checkbox" name="filed"> <label for="d2d_filed" class="small">Filed work (mark when task completed)</label>
+          </div>
+
+          <div class="actions">
+            <button type="submit">Submit D2D</button>
+            <button type="button" id="d2dReset" class="ghost">Reset</button>
+          </div>
+        </form>
+
+        <div id="d2dResult" aria-live="polite"></div>
+      </div>
+
+      <!-- Renewal Form -->
+      <div class="card" id="renewalCard">
+        <div class="section-title">
+          <strong>Renewal / Service Form</strong>
+          <small class="muted">renewal, suspension recovery, or new connection follow-up</small>
+        </div>
+
+        <form id="renewalForm" autocomplete="off">
+          <label for="r_fullname">Full name</label>
+          <input id="r_fullname" name="fullName" type="text" placeholder="Ex: Sita Kumari" required>
+
+          <label for="r_address" style="margin-top:10px">Address</label>
+          <textarea id="r_address" name="address"></textarea>
+
+          <div class="row" style="margin-top:10px">
+            <div>
+              <label for="r_mobile">Mobile no</label>
+              <input id="r_mobile" name="mobile" type="tel" required>
+            </div>
+            <div>
+              <label for="r_gps">GPS (lat, lon)</label>
+              <input id="r_gps" name="gps" type="text" placeholder="Click 'Get GPS' or paste coordinates">
+              <div class="hint"><button type="button" id="getGpsBtnR" class="ghost">Get GPS</button></div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:10px">
+            <div>
+              <label for="r_visited_by">Visited by</label>
+              <input id="r_visited_by" name="visitedBy" type="text" required>
+            </div>
+            <div>
+              <label for="r_datetime">Visit date & time</label>
+              <input id="r_datetime" name="datetime" type="datetime-local" required>
+            </div>
+          </div>
+
+          <label style="margin-top:10px">Service type</label>
+          <div class="inline">
+            <select id="r_type" name="serviceType" required>
+              <option value="" disabled selected>-- choose --</option>
+              <option value="renewal">Renewal</option>
+              <option value="reactivation">Re-activation</option>
+              <option value="new_connection">New Connection</option>
+              <option value="follow_up">Follow-up</option>
+            </select>
+
+            <select id="r_status" name="status" required>
+              <option value="" disabled selected>-- visit status --</option>
+              <option value="upcoming">Upcoming</option>
+              <option value="inactive">Inactive</option>
+              <option value="suspended">Suspended</option>
+              <option value="new_connection">New Connection</option>
+            </select>
+          </div>
+
+          <label style="margin-top:10px">User internet interest</label>
+          <div class="inline" role="radiogroup" aria-label="internet status renewal">
+            <label class="radio-label"><input type="radio" name="internetR" value="already" required> Already has internet</label>
+            <label class="radio-label"><input type="radio" name="internetR" value="not_interested"> Not interested</label>
+            <label class="radio-label"><input type="radio" name="internetR" value="urgent"> Urgent internet needed</label>
+            <label class="radio-label"><input type="radio" name="internetR" value="interested_later"> Interested (follow up later)</label>
+          </div>
+
+          <label for="r_notes" style="margin-top:10px">Notes</label>
+          <textarea id="r_notes" name="notes"></textarea>
+
+          <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
+            <input id="r_filed" type="checkbox" name="filed"> <label for="r_filed" class="small">Filed work (mark when task completed)</label>
+          </div>
+
+          <div class="actions">
+            <button type="submit">Submit Renewal</button>
+            <button type="button" id="rReset" class="ghost">Reset</button>
+          </div>
+        </form>
+
+        <div id="rResult" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div style="margin-top:18px" class="card">
+      <strong>Saved / Last submission</strong>
+      <div id="lastSubmission" class="muted" style="margin-top:6px">No submissions yet.</div>
+      <div class="download-links" id="downloadBlock" style="display:none"></div>
+    </div>
+  </div>
+
+  <script>
+    // Utility: format time for header
+    function updateClock() {
+      const now = new Date();
+      const dateStr = now.toLocaleString();
+      document.getElementById('clock').textContent = dateStr;
+    }
+    updateClock();
+    setInterval(updateClock, 60_000);
+
+    // GPS helpers (two buttons)
+    async function getGpsInto(inputId) {
+      const input = document.getElementById(inputId);
+      if (!navigator.geolocation) {
+        alert('Geolocation not supported by this browser.');
+        return;
+      }
+      input.value = 'Getting…';
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          const lat = pos.coords.latitude.toFixed(6);
+          const lon = pos.coords.longitude.toFixed(6);
+          input.value = `${lat}, ${lon}`;
+        },
+        err => {
+          input.value = '';
+          alert('Unable to get location: ' + err.message);
+        },
+        {enableHighAccuracy:true, timeout:10000}
+      );
+    }
+    document.getElementById('getGpsBtn').addEventListener('click', ()=> getGpsInto('d2d_gps'));
+    document.getElementById('getGpsBtnR').addEventListener('click', ()=> getGpsInto('r_gps'));
+
+    // Form handling
+    function serializeForm(form) {
+      const data = {};
+      const fm = new FormData(form);
+      fm.forEach((v,k) => {
+        // handle multiple radio groups with same name for renewal/d2d
+        if (data[k] !== undefined) {
+          // turn into array
+          if (!Array.isArray(data[k])) data[k] = [data[k]];
+          data[k].push(v);
+        } else data[k] = v;
+      });
+      data._submittedAt = new Date().toISOString();
+      data._formId = form.id;
+      return data;
+    }
+
+    function showResult(containerId, data) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '<div class="result">' + JSON.stringify(data, null, 2) + '</div>';
+      // update last submission area
+      const last = document.getElementById('lastSubmission');
+      last.textContent = `Form: ${data._formId} — ${data.fullName || data.fullName || '(no name)'} — ${new Date(data._submittedAt).toLocaleString()}`;
+      // show download links
+      const dl = document.getElementById('downloadBlock');
+      dl.style.display = 'flex';
+      dl.innerHTML = '';
+      // JSON link
+      const blobJson = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+      const urlJson = URL.createObjectURL(blobJson);
+      const aJson = document.createElement('a');
+      aJson.href = urlJson;
+      aJson.download = `${data._formId}_${(data.fullName||'submission').replace(/\s+/g,'_')}.json`;
+      aJson.textContent = 'Download JSON';
+      aJson.className = 'ghost';
+      aJson.style.padding = '8px 10px';
+      aJson.style.border = '1px solid #e6eefc';
+      // CSV creation (simple)
+      const csv = toCSV(data);
+      const blobCsv = new Blob([csv], {type:'text/csv'});
+      const urlCsv = URL.createObjectURL(blobCsv);
+      const aCsv = document.createElement('a');
+      aCsv.href = urlCsv;
+      aCsv.download = `${data._formId}_${(data.fullName||'submission').replace(/\s+/g,'_')}.csv`;
+      aCsv.textContent = 'Download CSV';
+      aCsv.className = 'ghost';
+      aCsv.style.padding = '8px 10px';
+      aCsv.style.border = '1px solid #e6eefc';
+      dl.appendChild(aJson);
+      dl.appendChild(aCsv);
+    }
+
+    function toCSV(obj) {
+      // Simple flat CSV: key,value rows
+      const rows = [['key','value']];
+      for (const k of Object.keys(obj)) rows.push([escapeCSV(k), escapeCSV(String(obj[k] ?? ''))]);
+      return rows.map(r => r.join(',')).join('\n');
+    }
+    function escapeCSV(v){ if (v.includes('"') || v.includes(',') || v.includes('\n')) return `"${v.replace(/"/g,'""')}"`; return v; }
+
+    // Attach submit handlers
+    document.getElementById('d2dForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const f = e.target;
+      // Basic validation for required radio groups
+      if (!f.querySelector('input[name="internet"]:checked')) {
+        showError('d2dResult', 'Please select internet interest option.');
+        return;
+      }
+      const data = serializeForm(f);
+      showResult('d2dResult', data);
+      // Optionally: clear form or not. We'll leave it filled so staff can review.
+    });
+
+    document.getElementById('renewalForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const f = e.target;
+      if (!f.querySelector('input[name="internetR"]:checked')) {
+        showError('rResult', 'Please select internet interest option.');
+        return;
+      }
+      const data = serializeForm(f);
+      showResult('rResult', data);
+    });
+
+    function showError(containerId, message) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = `<div class="error">${message}</div>`;
+    }
+
+    // Reset buttons
+    document.getElementById('d2dReset').addEventListener('click', ()=>{
+      document.getElementById('d2dForm').reset();
+      document.getElementById('d2dResult').innerHTML = '';
+    });
+    document.getElementById('rReset').addEventListener('click', ()=>{
+      document.getElementById('renewalForm').reset();
+      document.getElementById('rResult').innerHTML = '';
+    });
+
+    // Small UX: set date/time defaults to now for D2D
+    (function setDefaults(){
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth()+1).padStart(2,'0');
+      const dd = String(now.getDate()).padStart(2,'0');
+      const hh = String(now.getHours()).padStart(2,'0');
+      const min = String(now.getMinutes()).padStart(2,'0');
+      const dateStr = `${yyyy}-${mm}-${dd}`;
+      const timeStr = `${hh}:${min}`;
+      document.getElementById('d2d_date').value = dateStr;
+      document.getElementById('d2d_time').value = timeStr;
+      document.getElementById('r_datetime').value = `${dateStr}T${timeStr}`;
+    })();
+
+    // Accessibility: allow pressing Enter on ghost buttons to not submit parent form
+    document.querySelectorAll('button.ghost').forEach(b => {
+      b.addEventListener('click', (ev)=>{ev.preventDefault();});
+    });
+
+    // Optional: save last submission in-memory (persist not implemented)
+    // If you want localStorage persistence, we can add later.
+
+  </script>
+</body>
+</html>

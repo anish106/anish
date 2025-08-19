@@ -1,0 +1,31 @@
+/* Highlight Subisu Cable Net Chandrapur Branch */
+.subisu-branch {
+    background: linear-gradient(135deg, #6a0dad, #e60073); /* Purple-Pink Gradient */
+    color: white;
+    font-family: "Poppins", sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px 30px;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    margin: 20px auto;
+    max-width: 500px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover Effect */
+.subisu-branch:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* Optional Glow Effect */
+.subisu-branch::before {
+    content: "✨";
+    margin-right: 8px;
+}
+.subisu-branch::after {
+    content: "✨";
+    margin-left: 8px;
+}
